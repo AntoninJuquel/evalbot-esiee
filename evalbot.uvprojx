@@ -389,9 +389,19 @@
               <FilePath>.\RK_Config_Moteur.s</FilePath>
             </File>
             <File>
-              <FileName>RK_Blinky_2LED_1.2.s</FileName>
+              <FileName>Program.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\RK_Blinky_2LED_1.2.s</FilePath>
+              <FilePath>.\Program.s</FilePath>
+            </File>
+            <File>
+              <FileName>RK_Config_LED.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\RK_Config_LED.s</FilePath>
+            </File>
+            <File>
+              <FileName>RK_CONFIG_INPUTS.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\RK_CONFIG_INPUTS.s</FilePath>
             </File>
           </Files>
         </Group>

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\evalbot.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\evalbot.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6160001: Last Updated: Mon Nov 15 16:49:38 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6160001: Last Updated: Sun Nov 21 13:23:11 2021
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -24,6 +24,13 @@ Functions with no stack information
  <LI><a href="#[1f]">MOTEUR_DROIT_INVERSE</a>
  <LI><a href="#[20]">MOTEUR_GAUCHE_INVERSE</a>
  <LI><a href="#[15]">__main</a>
+ <LI><a href="#[21]">LED_SWITCH_INIT</a>
+ <LI><a href="#[22]">ALLUME_DROITE</a>
+ <LI><a href="#[23]">ETEINT_DROITE</a>
+ <LI><a href="#[24]">ALLUME_GAUCHE</a>
+ <LI><a href="#[25]">ETEINT_GAUCHE</a>
+ <LI><a href="#[26]">SWITCH_INIT</a>
+ <LI><a href="#[27]">BUMPER_INIT</a>
 </UL>
 </UL>
 <P>
@@ -74,7 +81,7 @@ Function Pointers
  <LI><a href="#[9]">SysTick_Handler</a> from startup_armcm3.o(.text) referenced from startup_armcm3.o(RESET)
  <LI><a href="#[14]">SystemInit</a> from system_armcm3.o(.text.SystemInit) referenced from startup_armcm3.o(.text)
  <LI><a href="#[5]">UsageFault_Handler</a> from startup_armcm3.o(.text) referenced from startup_armcm3.o(RESET)
- <LI><a href="#[15]">__main</a> from rk_blinky_2led_1.2.o(.text) referenced from startup_armcm3.o(.text)
+ <LI><a href="#[15]">__main</a> from program.o(.text) referenced from startup_armcm3.o(.text)
 </UL>
 <P>
 <H3>
@@ -88,21 +95,29 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[18]"></a>MOTEUR_DROIT_OFF</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text), UNUSED, KEPT)
+<P><STRONG><a name="[18]"></a>MOTEUR_DROIT_OFF</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
 
 <P><STRONG><a name="[19]"></a>MOTEUR_GAUCHE_ON</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[1a]"></a>MOTEUR_GAUCHE_OFF</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text), UNUSED, KEPT)
+<P><STRONG><a name="[1a]"></a>MOTEUR_GAUCHE_OFF</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
 
-<P><STRONG><a name="[1b]"></a>MOTEUR_DROIT_ARRIERE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text), UNUSED, KEPT)
+<P><STRONG><a name="[1b]"></a>MOTEUR_DROIT_ARRIERE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
 
 <P><STRONG><a name="[1c]"></a>MOTEUR_DROIT_AVANT</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[1d]"></a>MOTEUR_GAUCHE_ARRIERE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text), UNUSED, KEPT)
+<P><STRONG><a name="[1d]"></a>MOTEUR_GAUCHE_ARRIERE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
 
 <P><STRONG><a name="[1e]"></a>MOTEUR_GAUCHE_AVANT</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
@@ -112,15 +127,54 @@ Global Symbols
 
 <P><STRONG><a name="[20]"></a>MOTEUR_GAUCHE_INVERSE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_moteur.o(.text), UNUSED, KEPT)
 
-<P><STRONG><a name="[15]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_blinky_2led_1.2.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_GAUCHE_AVANT
+<P><STRONG><a name="[15]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, program.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWITCH_INIT
+<LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_SWITCH_INIT
+<LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ETEINT_GAUCHE
+<LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ETEINT_DROITE
+<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BUMPER_INIT
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ALLUME_GAUCHE
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ALLUME_DROITE
+<LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_GAUCHE_AVANT
+<LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_GAUCHE_ARRIERE
 <LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_DROIT_AVANT
+<LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_DROIT_ARRIERE
+<LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_GAUCHE_OFF
 <LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_GAUCHE_ON
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_DROIT_OFF
 <LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_DROIT_ON
 <LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTEUR_INIT
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_armcm3.o(.text)
 </UL>
+<P><STRONG><a name="[21]"></a>LED_SWITCH_INIT</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[22]"></a>ALLUME_DROITE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[23]"></a>ETEINT_DROITE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[24]"></a>ALLUME_GAUCHE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[25]"></a>ETEINT_GAUCHE</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[26]"></a>SWITCH_INIT</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_inputs.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[27]"></a>BUMPER_INIT</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rk_config_inputs.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
 <P><STRONG><a name="[0]"></a>Reset_Handler</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, startup_armcm3.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_armcm3.o(RESET)
 </UL>
