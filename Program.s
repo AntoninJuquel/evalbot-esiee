@@ -36,7 +36,6 @@
 
 
 __main	
-
 		; Configure les LED, Switchs et Bumpers
 		BL  LED_SWITCH_INIT
 		
@@ -49,71 +48,45 @@ __main
 
 ; Lis l'?tat du bouton poussoir 1, si le bouton est pouss?, alors le programme va ? la branche "Cache",
 ; Sinon, le programme va ? la branche "ReadState2" qui lit le bouton poussoir 2
-ReadState
+READ_BTN_1
 		ldr r11,[r7]
 		CMP r11,#0x00
-		BNE ReadState2
-		BL Cache
+		BNE READ_BTN_2
+		BL GO
 		
 		
 ; Lis l'?tat du bouton poussoir 2, si le bouton est pouss?, alors le programme va ? la branche "Cherche",
 ; Sinon, le programme retourne ? la branche "ReadState" qui lit le bouton poussoir 1
-ReadState2
+READ_BTN_2
 		ldr r11,[r10]
 		CMP r11,#0x00
-		BNE ReadState
-		BL Cherche
+		BNE READ_BTN_1
+		BL COUNT
+
+COUNT
+		BL 	WAIT2
+		BL 	ALLUME_GAUCHE
+		BL 	ALLUME_DROITE
+		BL	WAIT2
+		BL 	ETEINT_GAUCHE
+		BL 	ETEINT_DROITE
+		subs r12, #1
+		CMP	r12, #0x00
+        BNE COUNT
+		BL	READ_BTN_1
 		
-		
-; Branche du programme de celui qui se cache
-Cache	
-		; Allumer la LED droite
-		BL ALLUME_DROITE	
-		
+GO	
 		; Activer les deux moteurs droit et gauche
 		BL	MOTEUR_DROIT_ON
 		BL	MOTEUR_GAUCHE_ON
 		
-		; Evalbot avance droit devant
-		BL	MOTEUR_DROIT_AVANT	   
-		BL	MOTEUR_GAUCHE_AVANT
-		
-		; Avancement pendant une p?riode (deux WAIT)
-		BL	WAIT	; BL (Branchement vers le lien WAIT); possibilit? de retour ? la suite avec (BX LR)
-		BL	WAIT
-		
-		; Rotation ? gauche de l'Evalbot pendant une demi-p?riode (1 seul WAIT), il fait donc ici un quart de tour
-		BL	MOTEUR_GAUCHE_ARRIERE   ; MOTEUR_GAUCHE_INVERSE
-		BL	WAIT
-		
-		; Avancement pendant une p?riode (deux WAIT)
-		BL	MOTEUR_GAUCHE_AVANT
-		BL	WAIT
-		BL	WAIT
-		
-		; D?sactiver les deux moteurs droit et gauche, le robot s'arr?te donc
-		BL	MOTEUR_DROIT_OFF
-		BL	MOTEUR_GAUCHE_OFF
-		
-		; Allumer la LED Gauche (Les deux LEDs sont donc allum?es)
-		BL ALLUME_GAUCHE
-		
-		;Fin du programme de celui qui se cache, on retourne ? la branche ReadState, qui lit l'?tat du Switch 1
-		; On peut ainsi recommencer la partie
-		BL ReadState	
-
-
-; Branche du programme de celui qui cherche
-Cherche	
-		; Activer les deux moteurs droit et gauche
-		BL	MOTEUR_DROIT_ON
-		BL	MOTEUR_GAUCHE_ON
+		ldr r12, =0x00
 
 ; Ici d?bute la boucle qui fera suivre un pattern ? notre robot
 loop	
 		; Eteindre la LED Gauche puis allumer la LED droite
 		BL ETEINT_GAUCHE
-		BL ALLUME_DROITE
+		BL ETEINT_DROITE
 		
 		; Evalbot avance droit devant
 		BL	MOTEUR_DROIT_AVANT	   
@@ -123,61 +96,7 @@ loop
 		; A chaque ?tape de l'avancement, 
 		; On v?rifie s'il y a collision en lisant l'?tat des Bumpers gr?ce ? la branche ReadCollision
 		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		
-		; Rotation ? gauche de l'Evalbot pendant une demi-p?riode (1 seul WAIT), il fait donc ici un quart de tour
-		BL	MOTEUR_GAUCHE_ARRIERE   ; MOTEUR_GAUCHE_INVERSE
-		BL	WAIT
-		
-		; Avancement du robot pendant 1 WAIT, tout en v?rifiant s'il y a collision
-		BL	MOTEUR_GAUCHE_AVANT
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		
-		; De nouveau rotation ? gauche pendant une demi-p?riode (1 seul WAIT), il refait donc un quart de tour
-		BL	MOTEUR_GAUCHE_ARRIERE   ; MOTEUR_GAUCHE_INVERSE
-		BL	WAIT
-		
-		; Eteindre la LED droite puis allumer la LED gauche
-		BL ETEINT_DROITE
-		BL ALLUME_GAUCHE
-		
-		; Avancement pendant deux p?riodes (quatre WAIT),
-		; A chaque ?tape de l'avancement, 
-		; On v?rifie s'il y a collision en lisant l'?tat des Bumpers gr?ce ? la branche ReadCollision
-		BL	MOTEUR_GAUCHE_AVANT
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		
-		; Rotation ? droite de l'Evalbot pendant une demi-p?riode (1 seul WAIT), il fait donc un quart de tour
-		BL	MOTEUR_DROIT_ARRIERE   ; MOTEUR_GAUCHE_INVERSE
-		BL	WAIT
-		
-		; Avancement du robot pendant 1 WAIT, tout en v?rifiant s'il y a collision
-		BL	MOTEUR_DROIT_AVANT  ; MOTEUR_GAUCHE_INVERSE
-		BL 	ReadCollision
-		BL	WAIT
-		BL 	ReadCollision
-		
-		; Rotation ? droite de l'Evalbot pendant une demi-p?riode (1 seul WAIT), il refait donc un quart de tour
-		BL	MOTEUR_DROIT_ARRIERE   ; MOTEUR_GAUCHE_INVERSE
-		BL	WAIT 
-		
+	
 		; Le robot vient d'effectuer un aller-retour avec un d?calage vers la gauche,
 		; Il ne lui reste plus qu'? effectuer ce m?me pattern de d?placement
 		; Jusqu'? ce qu'il entre en contact avec le robot qui se cache
@@ -191,43 +110,62 @@ loop
 ReadCollision
 		ldr r11,[r5]
 		CMP r11,#0x00
-		BEQ GAGNE 
+		BEQ COLLISION_DROITE
 		ldr r11,[r4]
 		CMP r11,#0x00
-		BEQ GAGNE 
+		BEQ COLLISION_GAUCHE 
 		BX LR
 		
 		
 ; Code ? effectuer par le robot qui cherche une fois qu'il a trouv? l'autre robot (donc gagn?)
-GAGNE   
+COLLISION_DROITE
+		ADD r12, #1
 		; D?sactiver les deux moteurs droit et gauche, le robot s'arr?te donc
-		BL	MOTEUR_DROIT_OFF
-		BL	MOTEUR_GAUCHE_OFF
+		BL	MOTEUR_DROIT_ARRIERE
+		BL	MOTEUR_GAUCHE_ARRIERE
 		
 		; Eteindre les deux LEDs (Droite et Gauche)
 		BL 	ETEINT_GAUCHE
 		BL 	ETEINT_DROITE
 		
-		; Faire clignoter les LEDs en appelant successivement les fonctions d'allumage et d'?teinte
-		; Elles s'allument (pendant une demi-periode WAIT2) et s'?teignent deux fois chacune
 		BL  ALLUME_DROITE
 		BL	WAIT2
 		BL 	ETEINT_DROITE
-		BL  ALLUME_GAUCHE
 		BL	WAIT2
-		BL 	ETEINT_GAUCHE
 		BL  ALLUME_DROITE
 		BL	WAIT2
 		BL 	ETEINT_DROITE
-		BL  ALLUME_GAUCHE
-		BL	WAIT2
-		BL 	ETEINT_GAUCHE
 		
-		; Fin du programme de celui qui cherche, on retourne ? la branche ReadState, qui lit l'?tat du Switch 1 
-		; On peut ainsi recommencer la partie
-		BL	ReadState
+		BL	MOTEUR_DROIT_AVANT
+		BL	WAIT2
+				
+		BL	loop
 
-
+; Code ? effectuer par le robot qui cherche une fois qu'il a trouv? l'autre robot (donc gagn?)
+COLLISION_GAUCHE
+		ADD r12, #1
+		; D?sactiver les deux moteurs droit et gauche, le robot s'arr?te donc
+		BL	MOTEUR_DROIT_ARRIERE
+		BL	MOTEUR_GAUCHE_ARRIERE
+		
+		; Eteindre les deux LEDs (Droite et Gauche)
+		BL 	ETEINT_GAUCHE
+		BL 	ETEINT_DROITE
+		
+		BL  ALLUME_GAUCHE
+		BL	WAIT2
+		BL 	ETEINT_GAUCHE
+		BL	WAIT2
+		BL  ALLUME_GAUCHE
+		BL	WAIT2
+		BL 	ETEINT_GAUCHE
+				
+		BL	MOTEUR_GAUCHE_AVANT
+		BL	WAIT2
+				
+		BL	loop
+		
+		
 ; Boucle d'attente pour le d?placement
 WAIT	ldr r1, =0x8FFFFF
 wait1	subs r1, #1
