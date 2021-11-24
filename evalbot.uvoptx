@@ -242,8 +242,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\RK_CONFIG_INPUTS.s</PathWithFileName>
-      <FilenameWithoutPath>RK_CONFIG_INPUTS.s</FilenameWithoutPath>
+      <PathWithFileName>.\RK_Config_INPUTS.s</PathWithFileName>
+      <FilenameWithoutPath>RK_Config_INPUTS.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

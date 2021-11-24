@@ -399,9 +399,9 @@
               <FilePath>.\RK_Config_LED.s</FilePath>
             </File>
             <File>
-              <FileName>RK_CONFIG_INPUTS.s</FileName>
+              <FileName>RK_Config_INPUTS.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\RK_CONFIG_INPUTS.s</FilePath>
+              <FilePath>.\RK_Config_INPUTS.s</FilePath>
             </File>
           </Files>
         </Group>
