@@ -43,8 +43,6 @@ LED_SWITCH_INIT
 		nop	   									;; tres tres important....
 		nop	   
 		nop	   									;; pas necessaire en simu ou en debbug step by step...
-	
-		;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^CONFIGURATION LED
 
         ldr r8, = GPIO_PORTF_BASE+GPIO_O_DIR    ;; 1 Pin du portF en sortie (broche 4 : 00010000)
         ldr r0, = BROCHE4_5 	
