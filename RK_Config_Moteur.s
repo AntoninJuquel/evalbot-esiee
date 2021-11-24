@@ -1,9 +1,3 @@
-; PERRIER Pierre, CE-OUGNA Sarah - ESIEE Paris
-; 12/2018 - Evalbot (Cortex M3 de Texas Instrument)
-; Projet - CacheBot (Jeu de cache-cache entre deux robots)
-
-;Les pages se r?f?rent au datasheet lm3s9b92.pdf
-
 ;Cablage :
 ;pin 10/PD0/PWM0 => input PWM du pont en H DRV8801RT
 ;pin 11/PD1/PWM1 => input Phase_R  du pont en H DRV8801RT
