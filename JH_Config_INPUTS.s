@@ -11,11 +11,9 @@ GPIO_O_DEN  		EQU 	0x0000051C  ; GPIO Digital Enable (p437 datasheet de lm3s9B92
 ; Pul_up
 GPIO_I_PUR   		EQU 	0x00000510  ; GPIO Digital Enable (p437 datasheet de lm3s9B92.pdf)
 	
-BROCHE6_7			EQU 	0xC0		; boutons poussoirs 1&2
 BROCHE6				EQU 	0x40		; bouton poussoirs 1
 BROCHE7				EQU 	0x80		; bouton poussoirs 2
 	
-BROCHE0_1			EQU 	0x03		; bumpers 1&2
 BROCHE0				EQU 	0x01		; bumper 1
 BROCHE1				EQU 	0x02		; bumper 2
 	
@@ -33,11 +31,11 @@ SWITCH_INIT
 		nop	   									;; pas necessaire en simu ou en debbug step by step...
 			
 		ldr r7, = GPIO_PORTD_BASE+GPIO_I_PUR	;; Pul_up 
-        ldr r0, = BROCHE6_7
+        ldr r0, = BROCHE6 + BROCHE7
         str r0, [r7]
 		
 		ldr r7, = GPIO_PORTD_BASE+GPIO_O_DEN	;; Enable Digital Function 
-        ldr r0, = BROCHE6_7	
+        ldr r0, = BROCHE6 + BROCHE7	
         str r0, [r7]     
 		
 		ldr r7, = GPIO_PORTD_BASE + (BROCHE6<<2)  ;; @data Register = @base + (mask<<2) ==> Switcher 1
@@ -53,11 +51,11 @@ BUMPER_INIT
 		nop	   									;; pas necessaire en simu ou en debbug step by step...
 
 		ldr r5, = GPIO_PORTE_BASE+GPIO_I_PUR	;; Pul_up 
-        ldr r0, = BROCHE0_1
+        ldr r0, = BROCHE0 + BROCHE1
         str r0, [r5]
 		
 		ldr r5, = GPIO_PORTE_BASE+GPIO_O_DEN	;; Enable Digital Function 
-        ldr r0, = BROCHE0_1	
+        ldr r0, = BROCHE0 + BROCHE1	
         str r0, [r5]     
 		
 		ldr r5, = GPIO_PORTE_BASE + (BROCHE0<<2)  ;; @data Register = @base + (mask<<2) ==> BUMPER 1
