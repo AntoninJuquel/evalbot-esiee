@@ -12,8 +12,8 @@ GPIO_PORTE_BASE		EQU		0x40024000			; GPIO Port E (APB) base: 0x4002.5000 (p416 d
 												; To use the pin as a digital input or output, the corresponding GPIODEN bit must be set.
 GPIO_O_DEN  		EQU 	0x0000051C  		; GPIO Digital Enable (p437 datasheet de lm3s9B92.pdf)
 	
-												; Pul_up
-GPIO_I_PUR   		EQU 	0x00000510  		; GPIO Digital Enable (p437 datasheet de lm3s9B92.pdf)
+												
+GPIO_I_PUR   		EQU 	0x00000510			
 	
 BROCHE6				EQU 	0x40				; SWITCH1
 BROCHE7				EQU 	0x80				; SWITCH2
@@ -28,19 +28,16 @@ BROCHE1				EQU 	0x02				; BUMPER2
 		EXPORT BUMPER_INIT
 
 SWITCH_INIT
-		;ldr r7, = SYSCTL_PERIPH_GPIO  			; RCGC2
-        ;mov r0, #0x00000038  					; Enable clock sur GPIO
-        ;str r0, [r7]
 
 		nop	   									
 		nop	   
 		nop	   									
 			
-		ldr r7, = GPIO_PORTD_BASE+GPIO_I_PUR	; Pul_up 
+		ldr r7, = GPIO_PORTD_BASE+GPIO_I_PUR
         ldr r0, = BROCHE6 + BROCHE7
         str r0, [r7]
 		
-		ldr r7, = GPIO_PORTD_BASE+GPIO_O_DEN	; Enable Digital Function 
+		ldr r7, = GPIO_PORTD_BASE+GPIO_O_DEN
         ldr r0, = BROCHE6 + BROCHE7	
         str r0, [r7]     
 		
@@ -51,19 +48,16 @@ SWITCH_INIT
 
 
 BUMPER_INIT
-		;ldr r5, = SYSCTL_PERIPH_GPIO  			; RCGC2
-        ;mov r0, #0x00000038  					; Enable clock sur GPIO
-        ;str r0, [r5]
-		
+
 		nop	   									
 		nop	   
 		nop	   									
 
-		ldr r5, = GPIO_PORTE_BASE+GPIO_I_PUR	; Pul_up 
+		ldr r5, = GPIO_PORTE_BASE+GPIO_I_PUR	
         ldr r0, = BROCHE0 + BROCHE1
         str r0, [r5]
 		
-		ldr r5, = GPIO_PORTE_BASE+GPIO_O_DEN	; Enable Digital Function 
+		ldr r5, = GPIO_PORTE_BASE+GPIO_O_DEN	
         ldr r0, = BROCHE0 + BROCHE1	
         str r0, [r5]     
 		

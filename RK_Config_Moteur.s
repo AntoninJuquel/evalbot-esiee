@@ -54,7 +54,7 @@ PWM1GENA		EQU		PWM_BASE+0x0A0
 PWM1GENB		EQU		PWM_BASE+0x0A4
 
 
-VITESSE			EQU		0x1B2	; Valeures plus petites => Vitesse plus rapide exemple 0x192
+VITESSE			EQU		0x100	; Valeures plus petites => Vitesse plus rapide exemple 0x192
 								; Valeures plus grandes => Vitesse moins rapide exemple 0x1B2
 						
 						

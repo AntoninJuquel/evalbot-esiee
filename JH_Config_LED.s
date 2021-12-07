@@ -1,5 +1,5 @@
 												; This register controls the clock gating logic in normal Run mode
-SYSCTL_PERIPH_GPIO EQU		0x400FE108			; SYSCTL_RCGC2_R (p291 datasheet de lm3s9b92.pdf)
+SYSCTL_PERIPH_GPIO 	EQU		0x400FE108			; SYSCTL_RCGC2_R (p291 datasheet de lm3s9b92.pdf)
 
 												; The GPIODATA register is the data register
 GPIO_PORTF_BASE		EQU		0x40025000			; GPIO Port F (APB) base: 0x4002.5000 (p416 datasheet de lm3s9B92.pdf)
@@ -22,46 +22,46 @@ BROCHE5				EQU		0x20 				; LED2
 		AREA    |.text|, CODE, READONLY
 	  	ENTRY
 		
-												; Export des fonctions
+												
 		EXPORT LED_INIT
 		EXPORT ALLUME_DROITE
 		EXPORT ALLUME_GAUCHE
 		EXPORT ETEINT_DROITE
 		EXPORT ETEINT_GAUCHE
 
-												; Config des LED
+												
 LED_INIT
 										
-		ldr r8, = SYSCTL_PERIPH_GPIO			; Enable the Port F peripheral clock  (p291 datasheet de lm3s9B96.pdf)	
-        mov r0, #0x00000038  					; Enable clock sur GPIO F
+		ldr r8, = SYSCTL_PERIPH_GPIO			
+        mov r0, #0x00000038  					
         str r0, [r8]
 		
 		nop
 		nop	   
 		nop	   									
 
-        ldr r8, = GPIO_PORTF_BASE+GPIO_O_DIR    ; 2 Pins du portF en sortie
+        ldr r8, = GPIO_PORTF_BASE+GPIO_O_DIR
         ldr r0, = BROCHE4 + BROCHE5 	
         str r0, [r8]
 		
-		ldr r8, = GPIO_PORTF_BASE+GPIO_O_DEN	; Enable Digital Function 
+		ldr r8, = GPIO_PORTF_BASE+GPIO_O_DEN
         ldr r0, = BROCHE4 + BROCHE5		
         str r0, [r8]
 		
-		ldr r8, = GPIO_PORTF_BASE+GPIO_O_DR2R	; Choix de l'intensité de sortie (2mA)
+		ldr r8, = GPIO_PORTF_BASE+GPIO_O_DR2R
         ldr r0, = BROCHE4 + BROCHE5			
         str r0, [r8]
 		
-		mov r2, #0x000       					; pour eteindre LED
+		mov r2, #0x000
      
-		mov r3, #BROCHE4 + BROCHE5				; Allume LED1&2 portF broche 4&5
+		mov r3, #BROCHE4 + BROCHE5
 				
 		BX	LR
 		
 		
 ALLUME_DROITE
 		ldr r8, = GPIO_PORTF_BASE + (BROCHE4<<2)
-		str r3, [r8]  							; Allume LED1 portF broche 4 (contenu de r3)  
+		str r3, [r8]  						 
 		BX	LR	
 		
 		
@@ -73,7 +73,7 @@ ETEINT_DROITE
 		
 ALLUME_GAUCHE
 		ldr r8, = GPIO_PORTF_BASE + (BROCHE5<<2)
-		str r3, [r8]  							; Allume LED2 portF broche 5 (contenu de r3)
+		str r3, [r8]  						
 		BX	LR	
 		
 			
