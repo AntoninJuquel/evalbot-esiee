@@ -17,7 +17,8 @@ GPIO_O_DR2R   		EQU 	0x00000500  ; GPIO 2-mA Drive Select (p428 datasheet de lm3
 GPIO_O_DEN  		EQU 	0x0000051C  ; GPIO Digital Enable (p437 datasheet de lm3s9B92.pdf)
 
 ; Broches select
-BROCHE4_5			EQU		0x30		; led1 & led2 sur broche 4 et 5
+BROCHE4				EQU		0x10
+BROCHE5				EQU		0x20		; led1 & led2 sur broche 4 et 5
 
 		AREA    |.text|, CODE, READONLY
 	  	ENTRY
@@ -45,51 +46,50 @@ LED_SWITCH_INIT
 		nop	   									;; pas necessaire en simu ou en debbug step by step...
 
         ldr r8, = GPIO_PORTF_BASE+GPIO_O_DIR    ;; 1 Pin du portF en sortie (broche 4 : 00010000)
-        ldr r0, = BROCHE4_5 	
+        ldr r0, = BROCHE4 + BROCHE5 	
         str r0, [r8]
 		
 		ldr r8, = GPIO_PORTF_BASE+GPIO_O_DEN	;; Enable Digital Function 
-        ldr r0, = BROCHE4_5		
+        ldr r0, = BROCHE4 + BROCHE5		
         str r0, [r8]
 		
 		ldr r8, = GPIO_PORTF_BASE+GPIO_O_DR2R	;; Choix de l'intensit? de sortie (2mA)
-        ldr r0, = BROCHE4_5			
+        ldr r0, = BROCHE4 + BROCHE5			
         str r0, [r8]
 		
 		mov r2, #0x000       					;; pour eteindre LED
      
 		; allumer la led broche 4 (BROCHE4_5)
-		mov r3, #BROCHE4_5		;; Allume LED1&2 portF broche 4&5 : 00110000
-		
-		ldr r8, = GPIO_PORTF_BASE + (BROCHE4_5<<1)  ; @data Register = @base + (mask<<1) ==> LED 1
-		ldr r9, = GPIO_PORTF_BASE + (BROCHE4_5<<3)  ; @data Register = @base + (mask<<1) ==> LED 2
-		
+		mov r3, #BROCHE4 + BROCHE5		;; Allume LED1&2 portF broche 4&5 : 00110000
+				
 		BX	LR
 		
 		
 ; Fonction pour allumer la LED Droite
 ALLUME_DROITE
-
+		ldr r8, = GPIO_PORTF_BASE + (BROCHE4<<2)
 		str r3, [r8]  							; Allume LED1 portF broche 4 : 00010000 (contenu de r3)  
 		BX	LR	
 		
 		
 ; Fonction pour ?teindre la LED Droite
 ETEINT_DROITE
+		ldr r8, = GPIO_PORTF_BASE + (BROCHE4<<2)
 		str r2, [r8]
 		BX LR
 		
 		
 ; Fonction pour allumer la LED Gauche
 ALLUME_GAUCHE
-
-		str r3, [r9]  							; Allume LED2 portF broche 5 : 00100000 (contenu de r3)
+		ldr r8, = GPIO_PORTF_BASE + (BROCHE5<<2)
+		str r3, [r8]  							; Allume LED2 portF broche 5 : 00100000 (contenu de r3)
 		BX	LR	
 		
 		
 ; Fonction pour ?teindre la LED Gauche		
 ETEINT_GAUCHE
-		str r2, [r9]
+		ldr r8, = GPIO_PORTF_BASE + (BROCHE5<<2)
+		str r2, [r8]
 		BX LR
 		
 		END 

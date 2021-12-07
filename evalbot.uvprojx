@@ -384,24 +384,24 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>RK_Config_Moteur.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\RK_Config_Moteur.s</FilePath>
-            </File>
-            <File>
               <FileName>Program.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Program.s</FilePath>
             </File>
             <File>
-              <FileName>RK_Config_LED.s</FileName>
+              <FileName>JH_Config_INPUTS.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\RK_Config_LED.s</FilePath>
+              <FilePath>.\JH_Config_INPUTS.s</FilePath>
             </File>
             <File>
-              <FileName>RK_Config_INPUTS.s</FileName>
+              <FileName>JH_Config_LED.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\RK_Config_INPUTS.s</FilePath>
+              <FilePath>.\JH_Config_LED.s</FilePath>
+            </File>
+            <File>
+              <FileName>RK_Config_Moteur.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\RK_Config_Moteur.s</FilePath>
             </File>
           </Files>
         </Group>
